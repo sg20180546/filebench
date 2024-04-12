@@ -39,3 +39,5 @@ define process name=seqread,instances=1
 }
 
 echo  "Single Stream Read Version 3.0 personality successfully loaded"
+
+run 30
