@@ -28,13 +28,13 @@ set $filesize=5g
 set $nthreads=1
 set $iosize=1m
 
-define file name=largefile1,path=$dir,size=$filesize,prealloc,reuse
+define file name=bigfileset,path=$dir,size=$filesize,prealloc,reuse
 
 define process name=seqread,instances=1
 {
   thread name=seqread,memsize=10m,instances=$nthreads
   {
-    flowop read name=seqread,filename=largefile1,iosize=$iosize
+    flowop read name=seqread,filename=bigfileset,iosize=$iosize
   }
 }
 
