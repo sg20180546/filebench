@@ -23,7 +23,7 @@
 # Use is subject to license terms.
 #
 
-set $dir=/home/sungjin/f2fs_mount
+set $dir=/home/femu/mnt
 set $nfiles=10000
 set $meandirwidth=20
 set $filesize=cvar(type=cvar-gamma,parameters=mean:131072;gamma:1.5)
