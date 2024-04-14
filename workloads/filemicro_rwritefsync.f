@@ -28,13 +28,13 @@
 # A fsync is issued after 16K ($iters) worth of writes.
 # Stops after one ($count) fsync.
 
-set $dir=/tmp
+set $dir=/home/femu/mnt
 set $cached=false
 set $count=1
 set $filesize=1g
 set $iosize=8k
 set $iters=16384
-set $nthreads=1
+set $nthreads=10
 
 define file name=bigfile,path=$dir,size=$filesize,prealloc,cached=$cached
 
@@ -49,3 +49,5 @@ define process name=filewriter,instances=1
 }
 
 echo  "FileMicro-WriteRandFsync Version 2.1 personality successfully loaded"
+
+run 20
