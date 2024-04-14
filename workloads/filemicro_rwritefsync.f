@@ -36,7 +36,7 @@ set $iosize=8k
 set $iters=16384
 set $nthreads=10
 
-define file name=bigfile,path=$dir,size=$filesize,prealloc
+define file name=bigfile,path=$dir,size=$filesize,prealloc,entries=1000
 
 define process name=filewriter,instances=1
 {
