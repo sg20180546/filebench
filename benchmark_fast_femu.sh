@@ -53,10 +53,11 @@ do
                 continue
             fi
             
-            
+            sleep 1
             sudo umount /dev/loop24
             sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f
 
+            sleep 2
             sudo /home/femu/mountfs ${SCHEME} ${T}
 
             sudo dmesg -c
