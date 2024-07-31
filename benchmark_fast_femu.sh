@@ -9,7 +9,7 @@
 # sudo /home/femu/sungjin1_f2fs_stat
 # sudo dmesg -c > ./tmp_kernel_result
 
-RESULT_DIR_PATH=/home/femu/home/femu/FAST_testdata/fb_result/
+RESULT_DIR_PATH=/home/femu/FAST_testdata/fb_result
 
 NORUNTIME=0
 EZRESET=1
@@ -54,6 +54,7 @@ do
             fi
             
             sleep 1
+            echo "mq-deadline" | sudo tee /sys/block/nvme0n1/queue/scheduler
             sudo umount /dev/loop24
             sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f
 
