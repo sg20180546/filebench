@@ -32,6 +32,23 @@ FAR_EXP=4
 
 WORKLOAD=fileserver3
 
+
+
+if lsblk | grep -q "loop24"; then
+    echo "loop24 mounted"
+else
+    sudo rm -rf /mnt/mydisk
+    sudo rm -rf my_disk_image.img 
+    dd if=/dev/zero of=my_disk_image.img bs=4096 count=524288
+    sudo mkfs.ext4 -b 4096 my_disk_image.img
+    sudo mkdir /mnt/mydisk
+
+    sudo mount -o loop my_disk_image.img /mnt/mydisk
+    sudo umount /mnt/mydisk
+    sudo losetup --sector-size 4096 /dev/loop24 my_disk_image.img
+fi
+
+
 for T in 130
 do
     for i in 1 2 3
@@ -70,6 +87,7 @@ do
             while : 
             do
             echo "mq-deadline" | sudo tee /sys/block/nvme0n1/queue/scheduler
+            echo "0" | sudo tee /proc/sys/kernel/randomize_va_space
             sudo umount /dev/loop24
             sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f > tmp
 
