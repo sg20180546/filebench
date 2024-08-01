@@ -58,12 +58,12 @@ do
             do
             echo "mq-deadline" | sudo tee /sys/block/nvme0n1/queue/scheduler
             sudo umount /dev/loop24
-            sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f
+            sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f > tmp
 
             sleep 2
             sudo /home/femu/mountfs ${SCHEME} ${T}
 
-            sudo dmesg -c
+            sudo dmesg -c > tmp
             sudo /home/femu/sungjin1_f2fs_stat
             # sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_PATH}
             sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_DIR_PATH}/tmp
