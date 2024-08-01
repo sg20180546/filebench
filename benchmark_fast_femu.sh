@@ -9,6 +9,7 @@
 # sudo /home/femu/sungjin1_f2fs_stat
 # sudo dmesg -c > ./tmp_kernel_result
 
+# sudo nano /proc/sys/kernel/randomize_va_space
 
 
 # sudo rm -rf /mnt/mydisk
@@ -31,16 +32,16 @@ FAR_EXP=4
 
 WORKLOAD=fileserver3
 
-for T in 90
+for T in 130
 do
     for i in 1 2 3
     do
-        for SCHEME in $EZRESET
+        for SCHEME in $NORUNTIME
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LSE_${i}.txt
-                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LSE_kernel_${i}.txt
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME4_${i}.txt
+                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME4_kernel_${i}.txt
             elif [ $SCHEME -eq $EZRESET ]; then
                 RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${i}.txt
                 RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_kernel_${i}.txt
