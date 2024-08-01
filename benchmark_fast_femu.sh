@@ -9,6 +9,18 @@
 # sudo /home/femu/sungjin1_f2fs_stat
 # sudo dmesg -c > ./tmp_kernel_result
 
+
+
+# sudo rm -rf /mnt/mydisk
+# sudo rm -rf my_disk_image.img 
+# dd if=/dev/zero of=my_disk_image.img bs=4096 count=524288
+# sudo mkfs.ext4 -b 4096 my_disk_image.img
+# sudo mkdir /mnt/mydisk
+
+# sudo mount -o loop my_disk_image.img /mnt/mydisk
+# sudo umount /mnt/mydisk
+# sudo losetup --sector-size 4096 /dev/loop24 my_disk_image.img
+
 RESULT_DIR_PATH=/home/femu/FAST_testdata/fb_result
 
 NORUNTIME=0
