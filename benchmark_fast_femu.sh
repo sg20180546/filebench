@@ -41,7 +41,7 @@ if lsblk | grep -q "loop24"; then
 else
     sudo rm -rf /mnt/mydisk
     sudo rm -rf my_disk_image.img 
-    dd if=/dev/zero of=my_disk_image.img bs=4096 count=524288
+    dd if=/dev/zero of=my_disk_image.img bs=4096 count=2097152
     sudo mkfs.ext4 -b 4096 my_disk_image.img
     sudo mkdir /mnt/mydisk
 
