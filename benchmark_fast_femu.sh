@@ -32,7 +32,9 @@ FAR_EXP=4
 
 WORKLOAD=fileserver3
 
-
+# 4GB 2097152
+# 2GB 1048576
+# 1GB 524288
 
 if lsblk | grep -q "loop24"; then
     echo "loop24 mounted"
