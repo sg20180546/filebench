@@ -23,7 +23,7 @@ for T in 90
 do
     for i in 1 2 3
     do
-        for SCHEME in $NORUNTIME
+        for SCHEME in $EZRESET
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
@@ -66,6 +66,8 @@ do
             sudo dmesg -c > tmp
             sudo /home/femu/sungjin1_f2fs_stat
             # sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_PATH}
+            echo ${RESULT_PATH}
+            
             sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_DIR_PATH}/tmp
 
             if grep -q "Shutting down processes" ${RESULT_DIR_PATH}/tmp; then
