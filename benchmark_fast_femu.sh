@@ -30,8 +30,8 @@ do
                 RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LSE_${i}.txt
                 RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LSE_kernel_${i}.txt
             elif [ $SCHEME -eq $EZRESET ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${T}_${i}.txt
-                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_kernel_${T}_${i}.txt
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${i}.txt
+                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_kernel_${i}.txt
             elif [ $SCHEME -eq $FAR_EXP ]; then
                 RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_EXP_${T}_${i}.txt
                 RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_kernel_EXP_${T}_${i}.txt
@@ -54,6 +54,8 @@ do
             fi
             
             sleep 1
+            while : 
+            do
             echo "mq-deadline" | sudo tee /sys/block/nvme0n1/queue/scheduler
             sudo umount /dev/loop24
             sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f
@@ -63,9 +65,21 @@ do
 
             sudo dmesg -c
             sudo /home/femu/sungjin1_f2fs_stat
-            sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_PATH}
-            sudo /home/femu/sungjin1_f2fs_stat
-            sudo dmesg -c > ${RESULT_KERNEL_PATH}
+            # sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_PATH}
+            sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_DIR_PATH}/tmp
+
+            if grep -q "Shutting down processes" ${RESULT_DIR_PATH}/tmp; then
+                sudo /home/femu/sungjin1_f2fs_stat
+                sudo dmesg -c > ${RESULT_KERNEL_PATH}
+                cat ${RESULT_DIR_PATH}/tmp > ${RESULT_PATH}
+                rm -rf ${RESULT_DIR_PATH}/tmp
+                break
+            else
+                cat ${RESULT_DIR_PATH}/tmp > ${RESULT_DIR_PATH}/failed
+                sleep 5
+            fi
+
+            done
         done
     done
 
