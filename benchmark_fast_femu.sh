@@ -41,7 +41,7 @@ if lsblk | grep -q "loop24"; then
 else
     sudo rm -rf /mnt/mydisk
     sudo rm -rf my_disk_image.img 
-    dd if=/dev/zero of=my_disk_image.img bs=4096 count=1048576
+    dd if=/dev/zero of=my_disk_image.img bs=4096 count=524288
     sudo mkfs.ext4 -b 4096 my_disk_image.img
     sudo mkdir /mnt/mydisk
 
@@ -59,7 +59,7 @@ do
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME2_${i}.txt
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LSE_${i}.txt
                 RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME4_kernel_${i}.txt
             elif [ $SCHEME -eq $EZRESET ]; then
                 RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${i}.txt
