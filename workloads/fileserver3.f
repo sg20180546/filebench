@@ -26,11 +26,11 @@
 set mode quit alldone
 
 set $dir=/home/femu/f2fs_mount
-set $nfiles=30000
+set $nfiles=90000
 set $meandirwidth=20
 set $filesize=cvar(type=cvar-gamma,parameters=mean:33554432;gamma:1.5)
 set $nthreads=8
-set $iosize=32m
+set $iosize=16m
 set $readiosize=128m
 set $meanappendsize=2m
 
