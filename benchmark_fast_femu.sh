@@ -36,12 +36,34 @@ WORKLOAD=fileserver3
 # 2GB 1048576
 # 1GB 524288
 
+LSE=0
+LME2=1
+LME4=2
+
+DEVICE=$LME4
+
+
+if [ $DEVICE -eq $LSE ]; then
+    RANDOM_SIZE=524288
+    DEVICE_STRING=LSE
+elif [ $DEVICE -eq $LME2 ]; then
+    RANDOM_SIZE=1048576
+    DEVICE_STRING=LME2
+elif [ $DEVICE -eq $LME4 ]; then
+    RANDOM_SIZE=2097152
+    DEVICE_STRING=LME4
+else
+    echo "which device"
+    exit
+fi
+
+
 if lsblk | grep -q "loop24"; then
     echo "loop24 mounted"
 else
     sudo rm -rf /mnt/mydisk
     sudo rm -rf my_disk_image.img 
-    dd if=/dev/zero of=my_disk_image.img bs=4096 count=524288
+    dd if=/dev/zero of=my_disk_image.img bs=4096 count=$RANDOM_SIZE
     sudo mkfs.ext4 -b 4096 my_disk_image.img
     sudo mkdir /mnt/mydisk
 
@@ -59,8 +81,8 @@ do
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME4_${i}.txt
-                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME4_kernel_${i}.txt
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_${DEVICE_STRING}_${i}.txt
+                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_${DEVICE_STRING}_kernel_${i}.txt
             elif [ $SCHEME -eq $EZRESET ]; then
                 RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${i}.txt
                 RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_kernel_${i}.txt
