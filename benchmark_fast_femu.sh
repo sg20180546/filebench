@@ -55,11 +55,11 @@ for T in 130
 do
     for i in 1 2 3
     do
-        for SCHEME in $EZRESET $FAR_LOG $FAR_LINEAR $FAR_EXP
+        for SCHEME in $NORUNTIME
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LSE_${i}.txt
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME4_${i}.txt
                 RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_LME4_kernel_${i}.txt
             elif [ $SCHEME -eq $EZRESET ]; then
                 RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${i}.txt
