@@ -55,7 +55,7 @@ for T in 130
 do
     for i in 1 2 3
     do
-        for SCHEME in $NORUNTIME
+        for SCHEME in $EZRESET $FAR_LOG $FAR_LINEAR $FAR_EXP
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
