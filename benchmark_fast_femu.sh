@@ -100,6 +100,7 @@ do
             sudo /home/femu/sungjin1_f2fs_stat
             # sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_PATH}
             echo ${RESULT_PATH}
+            echo ${RESULT_KERNEL_PATH}
             
             sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_DIR_PATH}/tmp
 
