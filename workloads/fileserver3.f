@@ -61,7 +61,7 @@ define process name=filereader,instances=1
     flowop deletefile name=deletefile1,filesetname=bigfileset
 
     flowop statfile name=statfile1,filesetname=bigfileset
-    flowop finishoncount name=foc,value=161000
+    flowop finishoncount name=foc,value=322000
   }
 }
 
