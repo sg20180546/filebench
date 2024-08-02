@@ -28,7 +28,7 @@ set mode quit alldone
 set $dir=/home/femu/f2fs_mount
 set $nfiles=30000
 set $meandirwidth=20
-set $filesize=cvar(type=cvar-gamma,parameters=mean:268435456;gamma:1.5)
+set $filesize=cvar(type=cvar-gamma,parameters=mean:33554432;gamma:1.5)
 set $nthreads=8
 set $iosize=32m
 set $readiosize=128m
@@ -61,7 +61,7 @@ define process name=filereader,instances=1
     flowop deletefile name=deletefile1,filesetname=bigfileset
 
     flowop statfile name=statfile1,filesetname=bigfileset
-    flowop finishoncount name=foc,value=41000
+    flowop finishoncount name=foc,value=81000
   }
 }
 
