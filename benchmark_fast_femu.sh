@@ -75,7 +75,7 @@ fi
 
 for T in 130
 do
-    for i in 1
+    for i in 1 2 3
     do
         for SCHEME in $NORUNTIME
         do
