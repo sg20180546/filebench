@@ -50,7 +50,7 @@ elif [ $DEVICE -eq $LME2 ]; then
     RANDOM_SIZE=131072
     DEVICE_STRING=LME2
 elif [ $DEVICE -eq $LME4 ]; then
-    RANDOM_SIZE=262144
+    RANDOM_SIZE=196608
     DEVICE_STRING=LME4
 else
     echo "which device"
