@@ -41,7 +41,7 @@ LME4=2 #512
 
 DEVICE=$LME4
 DEVICE_NAME=nvme0n1
-WORKLOAD=fileserver3_cosmos
+WORKLOAD=fileserver3
 
 
 if [ $DEVICE -eq $LSE ]; then
@@ -78,7 +78,7 @@ for T in 130
 do
     for i in 1 2 3
     do
-        for SCHEME in $NORUNTIME
+        for SCHEME in $NORUNTIME $FAR_EXP
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then

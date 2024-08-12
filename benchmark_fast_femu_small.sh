@@ -40,7 +40,7 @@ LSE=0 # 64
 LME2=1 # 128
 LME4=2 # 256
 
-DEVICE=$LSE
+DEVICE=$LME4
 
 
 if [ $DEVICE -eq $LSE ]; then
@@ -75,9 +75,9 @@ fi
 
 for T in 130
 do
-    for i in 1 2 3
+    for i in 41 42 43
     do
-        for SCHEME in $NORUNTIME $FAR_EXP
+        for SCHEME in $NORUNTIME
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
@@ -113,12 +113,12 @@ do
             echo "mq-deadline" | sudo tee /sys/block/nvme0n1/queue/scheduler
             echo "0" | sudo tee /proc/sys/kernel/randomize_va_space
             sudo umount /dev/loop24
-            sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f > tmp
+            sudo mkfs.f2fs -m -c  /dev/nvme0n1 /dev/loop24 -f > tmp1
 
             sleep 2
             sudo /home/femu/mountfs ${SCHEME} ${T}
 
-            sudo dmesg -c > tmp
+            sudo dmesg -c > tmp2
             sudo /home/femu/sungjin1_f2fs_stat
             # sudo filebench -f /home/femu/filebench/workloads/${WORKLOAD}.f > ${RESULT_PATH}
             echo ${RESULT_PATH}
