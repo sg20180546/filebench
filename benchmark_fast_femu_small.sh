@@ -35,12 +35,12 @@ WORKLOAD=fileserver3
 # 4GB 2097152
 # 2GB 1048576
 # 1GB 524288
+ 
+LSE=0 # 64
+LME2=1 # 128
+LME4=2 # 256
 
-LSE=0
-LME2=1
-LME4=2
-
-DEVICE=$LME4
+DEVICE=$LSE
 
 
 if [ $DEVICE -eq $LSE ]; then
@@ -77,7 +77,7 @@ for T in 130
 do
     for i in 1 2 3
     do
-        for SCHEME in $NORUNTIME
+        for SCHEME in $NORUNTIME $FAR_EXP
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
@@ -130,6 +130,9 @@ do
                 sudo /home/femu/sungjin1_f2fs_stat
                 sudo dmesg -c > ${RESULT_KERNEL_PATH}
                 cat ${RESULT_DIR_PATH}/tmp > ${RESULT_PATH}
+                
+                cat /home/femu/filebench/workloads/${WORKLOAD}.f >> ${RESULT_PATH}
+
                 rm -rf ${RESULT_DIR_PATH}/tmp
                 break
             else

@@ -30,28 +30,28 @@ FAR_LOG=2
 FAR_LINEAR=3
 FAR_EXP=4
 
-WORKLOAD=fileserver3
 
 # 4GB 2097152
 # 2GB 1048576
 # 1GB 524288
 
-LSE=0
-LME2=1
-LME4=2
+LSE=0 # 128
+LME2=1 #256
+LME4=2 #512
 
 DEVICE=$LME4
 DEVICE_NAME=nvme0n1
+WORKLOAD=fileserver3_cosmos
 
 
 if [ $DEVICE -eq $LSE ]; then
     RANDOM_SIZE=131072
     DEVICE_STRING=LSE
 elif [ $DEVICE -eq $LME2 ]; then
-    RANDOM_SIZE=262144
+    RANDOM_SIZE=196608
     DEVICE_STRING=LME2
 elif [ $DEVICE -eq $LME4 ]; then
-    RANDOM_SIZE=524288
+    RANDOM_SIZE=262144
     DEVICE_STRING=LME4
 else
     echo "which device"
@@ -117,10 +117,10 @@ do
             sudo mkfs.f2fs -m -c  /dev/${DEVICE_NAME} /dev/loop24 -f > /home/micron/tmp
 
             sleep 2
-            sudo /home/micron/mountfs ${SCHEME} ${T}
+            sudo /home/micron/C/mountfs ${SCHEME} ${T}
 
             sudo dmesg -c > /home/micron/tmp
-            sudo /home/micron/sungjin1_f2fs_stat
+            sudo /home/micron/zns_utilities/sungjin1_f2fs_stat
             # sudo filebench -f /home/micron/filebench/workloads/${WORKLOAD}.f > ${RESULT_PATH}
             echo ${RESULT_PATH}
             echo ${RESULT_KERNEL_PATH}
@@ -128,9 +128,12 @@ do
             sudo filebench -f /home/micron/filebench/workloads/${WORKLOAD}.f > ${RESULT_DIR_PATH}/tmp
 
             if grep -q "Shutting down processes" ${RESULT_DIR_PATH}/tmp; then
-                sudo /home/micron/sungjin1_f2fs_stat
+                sudo /home/micron/zns_utilities/sungjin1_f2fs_stat
                 sudo dmesg -c > ${RESULT_KERNEL_PATH}
                 cat ${RESULT_DIR_PATH}/tmp > ${RESULT_PATH}
+                
+                cat /home/femu/filebench/workloads/${WORKLOAD}.f >> ${RESULT_PATH}
+
                 rm -rf ${RESULT_DIR_PATH}/tmp
                 break
             else
