@@ -41,7 +41,7 @@ LME4=2 #512
 
 DEVICE=$LSE
 DEVICE_NAME=nvme0n1
-WORKLOAD=fileserver3_openzone
+WORKLOAD=fileserver3_femu_openzone
 
 
 if [ $DEVICE -eq $LSE ]; then
