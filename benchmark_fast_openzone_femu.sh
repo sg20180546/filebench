@@ -88,7 +88,7 @@ for SCHEME in $NORUNTIME $FAR_EXP
 do
     for i in 101
     do
-        for O in 1 80
+        for O in 1 20
         do
 
             if [ $SCHEME -eq $NORUNTIME ]; then
