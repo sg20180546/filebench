@@ -45,15 +45,15 @@ WORKLOAD=fileserver3_openzone
 
 
 if [ $DEVICE -eq $LSE ]; then
-    RANDOM_SIZE=131072
+    RANDOM_SIZE=524288
     DEVICE_STRING=LSE
-     RESET_N=640
+     RESET_N=80
 elif [ $DEVICE -eq $LME2 ]; then
-    RANDOM_SIZE=196608
+    RANDOM_SIZE=1048576
     DEVICE_STRING=LME2
     RESET_N=320
 elif [ $DEVICE -eq $LME4 ]; then
-    RANDOM_SIZE=262144
+    RANDOM_SIZE=2097152
     DEVICE_STRING=LME4
      RESET_N=160
 else
@@ -78,7 +78,7 @@ fi
 
 echo "mq-deadline" | sudo tee /sys/block/${DEVICE_NAME}/queue/scheduler
 echo "0" | sudo tee /proc/sys/kernel/randomize_va_space
-sudo /home/femu/zns_utilities/dummy 999 999
+# sudo /home/femu/zns_utilities/dummy 999 999
 
 T=90
 
