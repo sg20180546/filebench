@@ -22,7 +22,7 @@
 # sudo umount /mnt/mydisk
 # sudo losetup --sector-size 4096 /dev/loop24 /home/micron/my_disk_image.img
 
-RESULT_DIR_PATH=/home/micron/FAST_testdata/fb_result
+RESULT_DIR_PATH=/home/micron/FAST_testdata/fb_result_wd
 
 NORUNTIME=0
 EZRESET=1
@@ -40,27 +40,29 @@ LME2=1 #256
 LME4=2 #512
 
 DEVICE=$LSE
-DEVICE_NAME=nvme1n1
-WORKLOAD=fileserver3_cosmos
- 
+DEVICE_NAME=nvme0n2
+WORKLOAD=fileserver3_wd
 
-if [ $DEVICE -eq $LSE ]; then
-    RANDOM_SIZE=131072
-    DEVICE_STRING=LSE
-     RESET_N=640
-elif [ $DEVICE -eq $LME2 ]; then
-    RANDOM_SIZE=196608
-    DEVICE_STRING=LME2
-    RESET_N=320
-elif [ $DEVICE -eq $LME4 ]; then
-    RANDOM_SIZE=262144
-    DEVICE_STRING=LME4
-     RESET_N=160
-else
-    echo "which device"
-    exit
-fi
 
+# if [ $DEVICE -eq $LSE ]; then
+#     RANDOM_SIZE=131072
+#     DEVICE_STRING=LSE
+#      RESET_N=640
+# elif [ $DEVICE -eq $LME2 ]; then
+#     RANDOM_SIZE=196608
+#     DEVICE_STRING=LME2
+#     RESET_N=320
+# elif [ $DEVICE -eq $LME4 ]; then
+#     RANDOM_SIZE=262144
+#     DEVICE_STRING=LME4
+#      RESET_N=160
+# else
+#     echo "which device"
+#     exit
+# fi
+RANDOM_SIZE=1048576
+DEVICE_STRING=LSE
+RESET_N=82
 
 if lsblk | grep -q "loop24"; then
     echo "loop24 mounted"
@@ -78,24 +80,24 @@ fi
 
 echo "mq-deadline" | sudo tee /sys/block/${DEVICE_NAME}/queue/scheduler
 echo "0" | sudo tee /proc/sys/kernel/randomize_va_space
-
-for T in 110
+O=9
+for T in 130
 do
-    # for i in 11 12 13
-    for i in testtest
+    for i in 31 32 33
     do
-        for SCHEME in $NORUNTIME
+        for SCHEME in  $EZRESET
         do
-
+            O=9
             if [ $SCHEME -eq $NORUNTIME ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_${DEVICE_STRING}_${i}.txt
-                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_${DEVICE_STRING}_kernel_${i}.txt
+                # O=1
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_${DEVICE_STRING}_${O}_${i}.txt
+                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_NORUNTIME_${DEVICE_STRING}_kernel_${O}_${i}.txt
             elif [ $SCHEME -eq $EZRESET ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${i}.txt
-                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_kernel_${i}.txt
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_${O}_${i}.txt
+                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_EZR_kernel_${O}_${i}.txt
             elif [ $SCHEME -eq $FAR_EXP ]; then
-                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_EXP_${T}_${i}.txt
-                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_kernel_EXP_${T}_${i}.txt
+                RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_EXP_${T}_${O}_${i}.txt
+                RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_kernel_EXP_${T}_${O}_${i}.txt
             elif [ $SCHEME -eq $FAR_LINEAR ]; then
                 RESULT_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_LINEAR_${T}_${i}.txt
                 RESULT_KERNEL_PATH=${RESULT_DIR_PATH}/${WORKLOAD}_ZEUFS_kernel_LINEAR_${T}_${i}.txt
@@ -124,8 +126,7 @@ do
             sudo mkfs.f2fs -m -c  /dev/${DEVICE_NAME} /dev/loop24 -f > /home/micron/tmp1
 
             # sleep 10
-            # sudo /home/micron/C/mountfs_noopenzone ${SCHEME} ${T}
-            sudo /home/micron/C/mountfs ${SCHEME} ${T} 9
+            sudo /home/micron/C/mountfs ${SCHEME} ${T} ${O}
             # sleep 10
             sudo dmesg -c > /home/micron/tmp2
             sudo /home/micron/zns_utilities/sungjin1_f2fs_stat
